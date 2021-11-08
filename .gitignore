@@ -12,3 +12,4 @@ lightning_logs
 
 test_logs
 data
+slurm_*

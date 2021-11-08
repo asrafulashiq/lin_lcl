@@ -150,12 +150,7 @@ def run_cluster(cfg: DictConfig, fn_main: Callable,
             raise ValueError("Do not specify partition in AIMOS")
 
         node = platform.processor()
-        if node == "x86_64":
-            PYTHON = "/gpfs/u/home/LLLD/LLLDashr/scratch/miniconda3x86_64/envs/fs_cdfsl/bin/python"
-        elif node == "ppc64le":
-            PYTHON = "/gpfs/u/home/LLLD/LLLDashr/scratch/miniconda3ppc64le/envs/fs_cdfsl/bin/python"
-            # extra = extra + "#SBATCH --partition dcs,rpi\n"
-
+        PYTHON = "python"
         # extra = extra + "conda activate fs_cdfsl \n"  # FIXME check
 
         python_cmd = get_argv()

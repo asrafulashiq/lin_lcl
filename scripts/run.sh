@@ -19,8 +19,8 @@ for nshot in 1 5; do
                 echo "Checkpoint $ckpt not found"
                 exit 1
             fi
-            cmd="python -m pdb main.py system=few_shot  data.test_dataset=CropDisease_test \
-                pretrained=true n_shot=${nshot} \
+            cmd="python  main.py system=few_shot  data.test_dataset=CropDisease_test \
+                pretrained=true n_shot=${nshot} launcher=slurm \
                 ckpt=${ckpt} model_name=${mod}_${dat}_${nshot}"
 
         done

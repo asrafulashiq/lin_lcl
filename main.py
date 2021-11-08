@@ -66,9 +66,6 @@ def hydra_main(cfg: DictConfig):
     elif cfg.launcher.name == "slurm":
         # submit job to slurm
         run_cluster(cfg, main, lt_system)
-    elif cfg.launcher.name == "submitit_eval":
-        from helper.helper_submitit_eval import submitit_eval_main
-        submitit_eval_main(cfg, lt_system)
 
 
 if __name__ == "__main__":
