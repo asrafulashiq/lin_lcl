@@ -48,3 +48,20 @@ ISIC:
   data_path: "data/cdfsl/ISIC"
   num_class: 7
   num_data: 10015
+
+DTD:
+  data_path: "data/cdfsl/dtd/"
+  num_class: 47
+  num_data: 5640
+  split: 5640,1880
+
+# Symbolic
+Omniglot:
+  data_path: "data/cdfsl/omniglot"
+  num_class: 1623
+  num_data: 13180
+
+Sketch:
+  data_path: "data/cdfsl/sketch"
+  num_class: 1000
+  num_data: 50889

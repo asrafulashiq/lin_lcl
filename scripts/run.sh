@@ -1,5 +1,12 @@
 datasets=(
-    EuroSAT CropDisease ChestX ISIC
+    EuroSAT
+    CropDisease
+    ChestX
+    ISIC
+    CUB
+    DTD
+    Omniglot
+    Sketch
 )
 
 models=(
