@@ -44,7 +44,7 @@ for nshot in 1 5; do
                 echo "$cmd"
                 eval "$cmd"
             else
-                fn_show ${mod}_${dat}_${nshot} ${dat} ${mod}_${dat}_${nshot}
+                fn_show ${mod}_${dat}_${nshot} ${dat} ${mod}
             fi
         done
     done
