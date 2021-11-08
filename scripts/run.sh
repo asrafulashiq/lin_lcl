@@ -21,13 +21,16 @@ models=(
 nshots=(1 5)
 
 mode="test"
-while getopts "m:s:" opt; do
+while getopts "m:s:d:" opt; do
     case ${opt} in
     m)
         mode="$OPTARG"
         ;;
     s)
         nshots=($OPTARG)
+        ;;
+    d)
+        datasets=($OPTARG)
         ;;
     esac
 done
@@ -41,7 +44,7 @@ for nshot in 1 5; do
                     echo "Checkpoint $ckpt not found"
                     exit 1
                 fi
-                cmd="python  main.py system=few_shot  data.test_dataset=CropDisease_test \
+                cmd="python  main.py system=few_shot  data.test_dataset=${dat}_test \
                 pretrained=true n_shot=${nshot} launcher=slurm \
                 ckpt=${ckpt} model_name=${mod}_${dat}_${nshot}"
                 echo "$cmd"
