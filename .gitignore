@@ -1,0 +1,14 @@
+*.pkl
+*.jpg
+*.ckpt
+*.pth
+output
+logs
+log_slurm
+pretrained
+datasets
+lightning_logs
+**.pyc
+
+test_logs
+data

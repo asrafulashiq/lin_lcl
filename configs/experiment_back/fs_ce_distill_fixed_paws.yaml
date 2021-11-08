@@ -1,0 +1,22 @@
+# @package _global_
+
+defaults:
+  - /experiment/fs_ce_distill_abstract
+
+ckpt: ckpt/ce_miniImageNet_resnet10/last.ckpt
+
+# ckpt: ckpt/ce_distill_self_miniImageNet_EuroSAT_resnet10/last.ckpt
+
+eval:
+  fine_tune:
+    target: "system.bolts.ce_distill_fixed_paws"
+
+    unlabel_aug: "weak_strong"
+    # unlabel_linear: "support" # "base"
+
+    mometum_update: 0.99
+
+    snn_temp: 0.1
+    sharpen_temp: 0.25
+
+    no_grad_support: true

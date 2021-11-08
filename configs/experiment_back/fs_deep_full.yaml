@@ -1,0 +1,20 @@
+# @package _global_
+
+# full-finetune
+defaults:
+  # - /eval/fine_tune/ft: full
+  - override /eval/fine_tune: deep
+
+last_k: -1
+
+eval:
+  fine_tune:
+    last_k: -1
+    lr_multiplier_backbone: 1.0
+
+    post_train:
+      freeze_backbone: false
+      use_norm: true
+
+launcher:
+  time: "6"

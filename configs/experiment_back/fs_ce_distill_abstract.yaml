@@ -1,0 +1,74 @@
+# @package _global_
+
+defaults:
+  - /eval/fine_tune/ft: self_pseudo
+  - /eval/fine_tune: deep
+
+data:
+  val_dataset: EuroSAT_test
+  dataset: EuroSAT_train
+  base_dataset: miniImageNet_train
+  batch_size: 128
+  num_classes: 100
+
+load_base: false
+load_flexible: true
+
+# support_batch_size_fixmatch: 20
+support_shot_fixmatch: 5
+support_aug: null
+query_aug: null
+support_repeat: 2
+support_aug_fixmatch: "true"
+
+eval:
+  fine_tune:
+    selftrain: fixmatch
+    target: null
+    freeze_bn: false
+
+    fixmatch_threshold: 0.8
+    apply_sharpening: true
+
+    unlabel_aug: "weak_strong"
+    temperature: 0.1
+
+    w_support: 1
+    w_base: 1
+    w_pseudo: 1
+
+    cosine_weight: false
+
+    n_way: ${n_way}
+
+    ############ How many unlabel data
+    num_unlabel_data: null # full data
+    unlabel_num_classes: null # int, all classes
+    unlabel_params:
+      batch_size: 128
+      unlabel_class_select: all # str, select all classes
+      trainer_params:
+        max_epochs: 10
+    ############
+
+    in_train:
+      reset_head: false
+      freeze_backbone: false
+      use_norm: false
+
+      optimizer:
+        _target_: "torch.optim.Adam"
+        lr: 0.0001
+        eps: 1e-08
+        weight_decay: 0
+        amsgrad: False
+
+      scheduler:
+        _target_: torch.optim.lr_scheduler.MultiStepLR
+        milestones:
+          - ${multiply:${eval.fine_tune.unlabel_params.trainer_params.max_epochs},0.7}
+          - ${multiply:${eval.fine_tune.unlabel_params.trainer_params.max_epochs},0.9}
+        gamma: 0.5
+
+    pre_train: true
+    post_train: true

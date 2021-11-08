@@ -1,0 +1,28 @@
+# @package _global_
+
+defaults:
+  - /system: few_shot
+  - /eval/fine_tune: deep
+  - /eval/fine_tune/ft: selftrain
+  - /eval/fine_tune/optimizer: SGD
+  - /eval/fine_tune/filter: threshold
+
+test: true
+load_base: true
+
+data:
+  val_dataset: EuroSAT_test
+  dataset: EuroSAT_train
+
+eval:
+  fine_tune:
+    threshold: null
+    use_norm: false
+    selection_type: "nn"
+
+    post_train:
+      freeze_backbone: true
+      use_norm: false
+
+launcher:
+  time: "6"

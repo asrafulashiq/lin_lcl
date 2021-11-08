@@ -1,0 +1,76 @@
+# @package _global_
+
+defaults:
+  - /eval/fine_tune/ft: self_pseudo
+  - override /eval/fine_tune: deep
+
+data:
+  val_dataset: EuroSAT_test
+  dataset: EuroSAT_train
+  base_dataset: miniImageNet_train
+  batch_size: 128
+  num_classes: 100
+
+load_base: false
+
+support_batch_size_fixmatch: 8
+support_aug: null
+query_aug: null
+support_repeat: 2
+support_aug_fixmatch: "few_shot_query"
+
+eval:
+  fine_tune:
+    selftrain: fixmatch
+    target: "system.bolts.ce_pseudo_fix"
+    freeze_bn: false
+
+    fixmatch_threshold: 0.8
+    apply_sharpening: true
+
+    unlabel_aug: "weak_strong"
+    temperature: 0.1
+    lr_multiplier_backbone: 1.0
+
+    weight_schedule: true
+    warmup_fix_epoch: -1
+
+    w_support: 1
+    w_base: 1
+
+    unlabel_linear: "support" # "base"
+
+    ############ How many uunlabel data
+    num_unlabel_data: null # full data
+    unlabel_num_classes: null # int, all classes
+    unlabel_params:
+      batch_size: 128
+      unlabel_class_select: all # str, select all classes
+      trainer_params:
+        max_epochs: 100
+    ############
+
+    in_train:
+      reset_head: false
+      freeze_backbone: false
+      use_norm: false
+
+      optimizer:
+        _target_: "torch.optim.Adam"
+        lr: 0.001
+        eps: 1e-08
+        weight_decay: 0
+        amsgrad: False
+
+      scheduler:
+        _target_: system.bolts.lr_scheduler.LinearWarmupCosineAnnealingLR
+        warmup_epochs: 5
+        max_epochs: ${eval.fine_tune.unlabel_params.trainer_params.max_epochs}
+        warmup_start_lr: 1e-6
+        eta_min: 1e-8
+
+    pre_train: true
+    # null
+    # reset_head: true
+    # freeze_backbone: true
+    # use_norm: false

@@ -1,0 +1,72 @@
+# @package _global_
+
+defaults:
+  - /eval/fine_tune/ft: selftrain
+  - /eval/fine_tune/filter: topk
+  - override /eval/fine_tune: deep
+
+data:
+  val_dataset: EuroSAT_test
+  dataset: EuroSAT_train
+
+support_batch_size_fixmatch: 25
+support_aug: "few_shot_query"
+support_repeat: 5
+query_aug: null
+support_aug_fixmatch: "few_shot_query"
+
+eval:
+  fine_tune:
+    target: "system.bolts.logistic_neg"
+    selftrain: "self_tfm_loop"
+
+    num_iter: 2 # how many iteration for pseudo labelling
+
+    # threshold: 0.7
+    selection_type: "class"
+
+    # transformer params
+    tfm_dim: 128
+
+    neg_loss: "both"
+
+    freeze_bn: false # batchnorm freeze
+    last_k: -1 # unfreeze all
+
+    unlabel_aug: "few_shot_query"
+    weight_tfm: 0
+
+    concat_support: false
+
+    lr_multiplier_backbone: 1.0
+
+    unlabel_params:
+      batch_size: 64
+      trainer_params:
+        gpus: 1
+        max_epochs: 50
+
+    support_batch_size: 5
+
+    support_batch_size_in_train: 32
+    support_aug: "few_shot_query"
+    support_repeat: 10
+
+    in_train:
+      reset_head: true
+      freeze_backbone: false
+      use_norm: true
+      with_extra: true
+
+      optimizer:
+        _target_: "torch.optim.SGD"
+        lr: 0.05
+        momentum: 0.9
+        dampening: 0
+        weight_decay: 1e-5
+
+    pre_train:
+      reset_head: true
+      freeze_backbone: true
+      use_norm: false
+      with_extra: false

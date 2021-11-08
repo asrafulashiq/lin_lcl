@@ -1,0 +1,16 @@
+# @package _global_
+
+defaults:
+  - /experiment/fs_ce_distill_abstract
+
+
+ckpt: ckpt/ce_miniImageNet_resnet10/last.ckpt
+
+# ckpt: ckpt/ce_distill_self_miniImageNet_EuroSAT_resnet10/last.ckpt
+
+eval:
+  fine_tune:
+    target: "system.bolts.ce_distill_self"
+
+    unlabel_aug: "weak_strong"
+    unlabel_linear: "support" # "base"

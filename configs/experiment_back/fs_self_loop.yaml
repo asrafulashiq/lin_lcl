@@ -1,0 +1,44 @@
+# @package _global_
+
+defaults:
+  - /eval/fine_tune/ft: selftrain
+  - /eval/fine_tune/filter: topk
+  - override /eval/fine_tune: deep
+
+data:
+  val_dataset: EuroSAT_test
+  dataset: EuroSAT_train
+
+eval:
+  fine_tune:
+    num_iter: 2 # how many iteration for pseudo labelling
+
+    # threshold: 0.7
+    selection_type: "class"
+
+    # batch_size: 4
+    freeze_bn: false # batchnorm freeze
+    last_k: -1 # unfreeze all
+
+    unlabel_aug: "few_shot_query"
+
+    concat_support: true
+
+    lr_multiplier_backbone: 1.0
+
+    unlabel_params:
+      batch_size: 64
+      trainer_params:
+        gpus: 1
+        max_epochs: 50
+
+    support_batch_size: 5
+
+    support_batch_size_in_train: 32
+    support_aug: "few_shot_query"
+    support_repeat: 10
+
+    in_train:
+      reset_head: true
+      freeze_backbone: false
+      use_norm: false

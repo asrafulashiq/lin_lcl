@@ -1,0 +1,100 @@
+# @package _global_
+
+defaults:
+  - /eval/fine_tune/optimizer@eval.fine_tune.in_train.optimizer: SGD
+
+data:
+  val_dataset: EuroSAT_test
+  dataset: EuroSAT_train
+
+support_batch_size: 5
+support_batch_size_fixmatch: 5
+support_aug: "few_shot_query"
+support_repeat: 5
+query_aug: null
+support_aug_fixmatch: "few_shot_query"
+
+eval:
+  fine_tune:
+    selftrain: "simsiam"
+    threshold: null
+    use_norm: true # use norm should be true for moco
+    selection_type: "nn"
+    model_unlabel: "simsiam"
+    lr_multiplier_backbone: 1.0
+
+    num_unlabel_data: 1000
+
+    batch_size: 64
+    unlabel_aug: "weak_strong"
+
+    post_train:
+      freeze_backbone: true
+      use_norm: false
+
+    in_train:
+      reset_head: true
+      freeze_backbone: false
+      use_norm: false
+      support_aug_simsiam: "weak"
+      support_aug_simsiam_seed: 0
+      support_repeat: 5
+
+      trainer_params:
+        gpus: 1
+        max_epochs: 50
+        checkpoint_callback: false
+        logger: false
+        progress_bar_refresh_rate: 0
+        num_sanity_val_steps: 0
+        check_val_every_n_epoch: 5
+        weights_summary: null
+
+    unlabel_params:
+      batch_size: 64
+      unlabel_class_select: null
+      trainer_params:
+        gpus: 1
+        max_epochs: 50
+        check_val_every_n_epoch: 1
+        num_sanity_val_steps: 0
+        progress_bar_refresh_rate: 0
+
+    simsiam_params:
+      batch_size: 64
+      hidden_mlp_1: 1024
+      hidden_mlp_2: 128
+      feat_dim: 32
+      max_epochs: 50
+      temperature: 0.1
+      optimizer: "sgd"
+      learning_rate: 0.01
+      exclude_bn_bias: false
+      weight_decay: 1e-6
+      optim: "sgd"
+      sim_func: "softmax"
+      weight_entropy: 0
+
+      scheduler:
+        _target_: "callbacks.custom_callbacks.LRScheduler"
+        max_epochs: 50
+
+      # lr_logger:
+      #   _target_: callbacks.lr_monitor.LearningRateMonitor
+      #   logging_interval: "epoch"
+
+    logistic_regression_params:
+      freeze_bn: false # batchnorm freeze
+      last_k: -1 # unfreeze all
+      use_norm: false
+      freeze_backbone: false
+      optimizer:
+        _target_: "torch.optim.SGD"
+        lr: 0.01
+        momentum: 0.9
+        dampening: 0
+        weight_decay: 0
+      lr_multiplier_backbone: 1.0
+
+launcher:
+  time: "6"

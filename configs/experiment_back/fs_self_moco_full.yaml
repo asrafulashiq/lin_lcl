@@ -1,0 +1,44 @@
+# @package _global_
+
+defaults:
+  - /eval/fine_tune/ft: selftrain
+  - /eval/fine_tune/optimizer: SGD
+  - /eval/fine_tune/filter: threshold
+  - override /eval/fine_tune: deep
+
+data:
+  val_dataset: EuroSAT_test
+  dataset: EuroSAT_train
+
+eval:
+  fine_tune:
+    threshold: null
+    use_norm: true # use norm should be true for moco
+    selection_type: "nn"
+    model_unlabel: "moco"
+    batch_size: 64
+    unlabel_params:
+      unlabel_class_select: null
+      trainer_params:
+        gpus: 1
+        max_epochs: 50
+        check_val_every_n_epoch: 1
+        num_sanity_val_steps: 0
+        progress_bar_refresh_rate: 0
+
+    post_train:
+      freeze_backbone: false
+      use_norm: true
+
+    moco_params:
+      emb_dim: 128
+      num_negatives: 2048
+      encoder_momentum: 0.999
+      softmax_temperature: 0.07
+      lr: 0.02
+      momentum: 0.9
+      weight_decay: 1e-4
+      use_mlp: true
+
+launcher:
+  time: "6"

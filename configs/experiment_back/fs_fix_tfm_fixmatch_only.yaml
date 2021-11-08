@@ -1,0 +1,14 @@
+# @package _global_
+
+defaults:
+  - /experiment/fs_fix_tfm
+
+eval:
+  fine_tune:
+    fixmatch_threshold: 0.5
+    apply_sharpening: true # for fixmatch, only when apply_tfm=false
+
+    detach_pseudo: true
+
+    weight_schedule: true
+    apply_tfm: false

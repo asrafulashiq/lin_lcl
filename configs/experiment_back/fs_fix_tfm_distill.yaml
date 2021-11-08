@@ -1,0 +1,75 @@
+# @package _global_
+
+defaults:
+  - /eval/fine_tune/ft: self_pseudo
+  # - /eval/fine_tune/filter: threshold
+  # - /eval/fine_tune/optimizer@eval.fine_tune.in_train.optimizer: SGD
+  - override /eval/fine_tune: deep
+
+data:
+  val_dataset: EuroSAT_test
+  dataset: EuroSAT_train
+
+model_name: "fs_fix_tfm"
+
+support_batch_size_fixmatch: 5
+support_aug: "few_shot_query"
+support_repeat: 1
+query_aug: null
+support_aug_fixmatch: "few_shot_query"
+
+eval:
+  fine_tune:
+    selftrain: fixmatch
+    target: "system.bolts.fixmatch_tfm_distill"
+    freeze_bn: false
+
+    unlabel_aug: "weak_strong"
+    lr_multiplier_backbone: 1.0
+    apply_sharpening: true
+    temperature: 0.5
+
+    # FIXME
+    apply_tfm: false
+    detach_pseudo: true
+
+    weight_schedule: false #
+
+    weight_tfm: 1
+
+    unlabel_params:
+      batch_size: 32
+
+    # transformer params
+
+    q_dim: 128
+    k_dim: ${eval.fine_tune.q_dim}
+    v_dim: ${n_way}
+    tfm_temperature: 10
+    tfm_loss_type: "kl" # or "ce"
+
+    use_norm: false
+    in_train:
+      reset_head: true
+      freeze_backbone: false
+      use_norm: ${eval.fine_tune.use_norm}
+
+      with_extra: true
+
+      optimizer:
+        _target_: "torch.optim.SGD"
+        lr: 0.01
+        momentum: 0.9
+        dampening: 0
+        weight_decay: 1e-5
+
+    pre_train:
+      reset_head: true
+      freeze_backbone: true
+      use_norm: ${eval.fine_tune.use_norm}
+      with_extra: false
+
+    post_train:
+      reset_head: true
+      freeze_backbone: true
+      use_norm: false

@@ -1,0 +1,51 @@
+# @package _global_
+
+defaults:
+  - /eval/fine_tune/ft: selftrain
+  - /eval/fine_tune/optimizer: SGD
+  - /eval/fine_tune/filter: threshold
+  - override /eval/fine_tune: deep
+
+data:
+  val_dataset: EuroSAT_test
+  dataset: EuroSAT_train
+
+eval:
+  fine_tune:
+    num_iter: 1
+
+    threshold: 0.5
+    selection_type: "class"
+
+    # batch_size: 4
+    freeze_bn: false # batchnorm freeze
+
+    unlabel_aug: "few_shot_query"
+
+    concat_support: false
+
+    lr_multiplier_backbone: 1.0
+
+    unlabel_params:
+      batch_size: 128
+      trainer_params:
+        gpus: 1
+        max_epochs: 50
+
+    support_batch_size: 5
+
+    # optimizer:
+    #   weight_decay: 0.0
+
+    in_train:
+      reset_head: false
+      freeze_backbone: false
+      use_norm: false
+    # post_train:
+    #   reset_head: false
+    #   freeze_backbone: true
+    #   use_norm: false
+    # pre_train:
+    #   reset_head: false
+    #   freeze_backbone: true
+    #   use_norm: false

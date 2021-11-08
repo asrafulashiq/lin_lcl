@@ -1,0 +1,49 @@
+# @package _global_
+
+defaults:
+  - /eval/fine_tune/ft: self_pseudo
+  - /eval/fine_tune/filter: threshold
+  - /eval/fine_tune/optimizer@eval.fine_tune.in_train.optimizer: SGD
+  - override /eval/fine_tune: deep
+
+data:
+  val_dataset: EuroSAT_test
+  dataset: EuroSAT_train
+
+support_batch_size_fixmatch: 5
+support_aug: "few_shot_query"
+support_repeat: 1
+query_aug: null
+support_aug_fixmatch: "few_shot_query"
+
+eval:
+  fine_tune:
+    selftrain: fixmatch
+    target: "system.bolts.custom_fixmatch"
+    freeze_bn: false
+    # threshold: 0.5
+    fixmatch_threshold: 0.5
+    # selection_type: "class"
+
+    apply_sharpening: true
+
+    unlabel_aug: "weak_strong"
+    temperature: 0.5
+    lr_multiplier_backbone: 1.0
+    weight_schedule: true
+
+    weight_pos: 1
+    weight_neg: 0
+
+    unlabel_params:
+      batch_size: 32
+
+    in_train:
+      reset_head: true
+      freeze_backbone: false
+      use_norm: true
+
+    pre_train: null
+    # reset_head: true
+    # freeze_backbone: true
+    # use_norm: false
