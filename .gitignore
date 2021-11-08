@@ -11,5 +11,5 @@ lightning_logs
 **.pyc
 
 test_logs
-data
+data/
 slurm_*
