@@ -21,10 +21,13 @@ models=(
 nshots=(1 5)
 
 mode="test"
-while getopts "m:" opt; do
+while getopts "m:s:" opt; do
     case ${opt} in
     m)
         mode="$OPTARG"
+        ;;
+    s)
+        nshots=($OPTARG)
         ;;
     esac
 done
