@@ -35,7 +35,7 @@ while getopts "m:s:d:" opt; do
     esac
 done
 
-for nshot in 1 5; do
+for nshot in "${nshots[@]}"; do
     for mod in "${models[@]}"; do
         for dat in "${datasets[@]}"; do
             if [ "$mode" = test ]; then
