@@ -65,3 +65,15 @@ Sketch:
   data_path: "data/cdfsl/sketch"
   num_class: 1000
   num_data: 50889
+
+# Art
+Kaokore:
+  data_path: "data/cdfsl/kaokore"
+  num_class: 8
+  num_data: 6568
+  split:
+
+Resisc45:
+  data_path: "data/cdfsl/Resisc45"
+  num_class: 45
+  num_data: 31500

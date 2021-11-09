@@ -33,10 +33,17 @@ dataset_no_split = [
     "ISIC",
     "ChestX",
     "EuroSAT",
-    "CropDisease",  # Exception: crop-disease
-    "DTD",
     "Omniglot",
-    "Sketch"
+    "Sketch",
+    "DeepWeeds",
+    "Resisc45",
+    "Kaokore",
+    "Flowers102",
+    "DTD",
+    "CropSmall",
+    "CropDisease",  # Exception: crop-disease
+    "miniImageNettest",
+    "tieredImageNettest"
 ]
 
 

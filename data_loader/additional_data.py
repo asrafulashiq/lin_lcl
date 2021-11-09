@@ -183,6 +183,45 @@ class ChestX(Dataset):
         return self.data_len
 
 
+class Omniglot(TorchDataset):
+    def __init__(self, data_root, mode='train'):
+        super().__init__()
+        self.dset = torchvision.datasets.Omniglot(data_root,
+                                                  background=False,
+                                                  download=True)
+
+
+class Kaokore(Dataset):
+    def __init__(self, data_root, mode='train') -> None:
+        self.data_root = data_root
+        # self.mode = mode
+
+        # disable mode as we are dealing with few-shot
+        self.samples = self._make_dataset(mode=None)
+        self.samples = self.samples.reset_index()
+
+    def __len__(self):
+        return self.samples.shape[0]
+
+    def __getitem__(self, index: int):
+        sample = self.samples.iloc[index]
+        gender, status = sample['gender'], sample['status']
+        label = gender * 4 + status
+        imfile = sample['image']
+        imfile = os.path.join(self.data_root, 'images_256', imfile)
+        if not os.path.exists(imfile):  # some images were not found
+            raise FileNotFoundError
+        image = default_loader(imfile)
+        label = np.long(label)
+        return image, label
+
+    def _make_dataset(self, mode) -> pd.DataFrame:
+        df = pd.read_csv(os.path.join(self.data_root, 'labels.csv'))
+        if mode == 'train' or mode == 'test':
+            df = df[df['set'] == mode]
+        return df
+
+
 ISIC_path = os.path.expanduser("data/cdfsl/ISIC")
 
 
