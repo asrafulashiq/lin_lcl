@@ -59,7 +59,7 @@ for nshot in "${nshots[@]}"; do
                 fn_show ${mod}_${dat}_${nshot} ${dat} ${mod}
             fi
         done
+        echo "---------------------------------------"
     done
-    echo "---------------------------------------"
 
 done
