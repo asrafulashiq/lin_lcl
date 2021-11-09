@@ -21,7 +21,7 @@ models=(
 nshots=(1 5)
 
 mode="test"
-while getopts "m:s:d:" opt; do
+while getopts "m:s:d:l:" opt; do
     case ${opt} in
     m)
         mode="$OPTARG"
@@ -31,6 +31,9 @@ while getopts "m:s:d:" opt; do
         ;;
     d)
         datasets=($OPTARG)
+        ;;
+    l)
+        models=($OPTARG)
         ;;
     esac
 done
