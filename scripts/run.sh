@@ -60,5 +60,6 @@ for nshot in "${nshots[@]}"; do
             fi
         done
     done
+    echo "---------------------------------------"
 
 done
