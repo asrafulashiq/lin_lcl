@@ -6,8 +6,12 @@ datasets=(
     ChestX
     ISIC
     CUB
-    DTD
     Sketch
+
+    DTD
+    Omniglot
+    Kaokore
+    Resisc45
 )
 
 models=(
