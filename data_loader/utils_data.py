@@ -28,15 +28,16 @@ def identity(x):
 TMP_PATH = os.path.expanduser("data/cache_cdfsl")
 DATA_ROOT = os.path.expanduser("data/cdfsl")
 
-# # NOTE as we are dealing with few-shot, no dataset has splits
-# dataset_no_split = [
-#     "ISIC",
-#     "ChestX",
-#     "EuroSAT",
-#     "CropDisease",  # Exception: crop-disease
-#     "miniImageNettest",
-#     "tieredImageNettest"
-# ]
+# NOTE as we are dealing with few-shot, no dataset has splits
+dataset_no_split = [
+    "ISIC",
+    "ChestX",
+    "EuroSAT",
+    "CropDisease",  # Exception: crop-disease
+    "DTD",
+    "Omniglot",
+    "Sketch"
+]
 
 
 def get_split(dname, split_type=None):
@@ -50,10 +51,10 @@ def get_split(dname, split_type=None):
     data_indices_suffix = ""
     if split_type is not None:
         data_indices_suffix = "_" + split_type
-    # if any(x in dname for x in dataset_no_split):
-    #     # mode = None
-    if mode is not None and not data_indices_suffix:
-        data_indices_suffix = "_partial"
+    if any(x in dname for x in dataset_no_split):
+        # mode = None
+        if mode is not None and not data_indices_suffix:
+            data_indices_suffix = "_partial"
 
     return base, data_indices_suffix, mode
 
