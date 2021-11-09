@@ -7,7 +7,6 @@ datasets=(
     ISIC
     CUB
     DTD
-    Omniglot
     Sketch
 )
 

@@ -50,7 +50,7 @@ ISIC:
   num_data: 10015
 
 DTD:
-  data_path: "data/cdfsl/dtd/"
+  data_path: "data/cdfsl/dtd/images"
   num_class: 47
   num_data: 5640
   split: 5640,1880
