@@ -26,9 +26,10 @@ def main(params: DictConfig, LightningSystem: pl.LightningModule, *args,
         if params.load_base:
             model.load_base(params.ckpt)
         else:
-            ckpt = torch.load(
-                params.ckpt,
-                map_location=lambda storage, loc: storage)['state_dict']
+            ckpt = torch.load(params.ckpt,
+                              map_location=lambda storage, loc: storage)
+            if 'state_dict' in ckpt:
+                ckpt = ckpt['state_dict']
             model.load_state_dict(ckpt, strict=not params.load_flexible)
 
     logger = CustomLogger(save_dir=params.logger.save_dir,
