@@ -18,9 +18,10 @@ class LightningSystem(system_abstract.LightningSystem):
 
     def load_base(self, ckpt_path=None):
         if ckpt_path is not None:
-            ckpt = torch.load(
-                ckpt_path,
-                map_location=lambda storage, loc: storage)['state_dict']
+            ckpt = torch.load(ckpt_path,
+                              map_location=lambda storage, loc: storage)
+            if 'state_dict' in ckpt:
+                ckpt = ckpt['state_dict']
             new_state = {}
             for k, v in ckpt.items():
                 # if 'feature.' in k:
