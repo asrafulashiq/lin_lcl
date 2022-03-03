@@ -18,13 +18,13 @@ models=(
     resnet50_tv
     moco_official
     byol_official
-    byol_official_1000
+    # byol_official_1000
     densecl
     pixpro_official_400
-    scrl_1000
-    detco_200AA
-    resim_fpn_400
-    soco
+    # scrl_1000
+    # detco_200AA
+    # resim_fpn_400
+    # soco
 
     byol_corresp_LARS_imagenet_tau_0.3_ep400
 )
@@ -59,7 +59,7 @@ for nshot in "${nshots[@]}"; do
                     exit 1
                 fi
                 cmd="python  main.py system=few_shot  data.test_dataset=${dat}_test \
-                pretrained=false n_shot=${nshot} launcher=slurm \
+                pretrained=false n_shot=${nshot} launcher=local \
                 ckpt=${ckpt} model_name=${mod}_${dat}_${nshot}"
                 echo "$cmd"
                 eval "$cmd"
