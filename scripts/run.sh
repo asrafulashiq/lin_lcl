@@ -18,7 +18,7 @@ models=(
     resnet50_tv
     moco_official
     byol_official
-    # byol_official_1000
+    byol_official_1000
     densecl
     pixpro_official_400
     # scrl_1000
